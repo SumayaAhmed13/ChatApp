@@ -13,6 +13,6 @@ namespace ChatingApi.Data
         {
 
         }
-        public DbSet<AppUser> user { get; set; }
+        public DbSet<AppUser> AppUser { get; set; }
     }
 }

@@ -37,7 +37,7 @@ namespace ChatingApi.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("user");
+                    b.ToTable("AppUser");
                 });
 #pragma warning restore 612, 618
         }

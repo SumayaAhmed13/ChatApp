@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ChatingApi.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20210914160554_PasswordAdded")]
-    partial class PasswordAdded
+    [Migration("20210915140900_First")]
+    partial class First
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -39,7 +39,7 @@ namespace ChatingApi.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("user");
+                    b.ToTable("AppUser");
                 });
 #pragma warning restore 612, 618
         }
