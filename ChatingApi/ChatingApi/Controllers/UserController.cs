@@ -1,5 +1,6 @@
 ﻿using ChatingApi.Data;
 using ChatingApi.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -20,13 +21,15 @@ namespace ChatingApi.Controllers
             _db = context;
         }
         [HttpGet]
+        [AllowAnonymous]
         public async Task<ActionResult<IEnumerable<AppUser>>> GetUser()
         {
             return await _db.AppUser.ToListAsync();
            
         }
         [HttpGet("{id}")]
-        public async Task<ActionResult<AppUser>> GetUserById(int id)
+        [Authorize]
+        public async Task<ActionResult<AppUser>> GetUser(int id)
         {
             return await _db.AppUser.FindAsync(id);
            
