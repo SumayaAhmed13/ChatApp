@@ -1,4 +1,6 @@
-﻿using ChatingApi.Data;
+﻿using AutoMapper;
+using ChatingApi.Data;
+using ChatingApi.Helper;
 using ChatingApi.Interface;
 using ChatingApi.Services;
 using Microsoft.EntityFrameworkCore;
@@ -16,6 +18,8 @@ namespace ChatingApi.Extension
         public static IServiceCollection AddAplicationServices(this IServiceCollection services, IConfiguration config)
         {
             services.AddScoped<ITokenService, TokenService>();
+            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddAutoMapper(typeof(AutoMapperProfile).Assembly);
             services.AddDbContext<DataContext>(options => options.UseSqlServer(config.GetConnectionString("DefaultConnection")));
 
             return services;

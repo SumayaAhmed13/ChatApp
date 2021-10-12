@@ -1,5 +1,8 @@
-﻿using ChatingApi.Data;
+﻿using AutoMapper;
+using ChatingApi.Data;
+using ChatingApi.DTOs;
 using ChatingApi.Entities;
+using ChatingApi.Interface;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -11,28 +14,44 @@ using System.Threading.Tasks;
 
 namespace ChatingApi.Controllers
 {
+    //[Authorize]
 
     public class UserController : BaseApiController
 
     {
-        private readonly DataContext _db;
-        public UserController(DataContext context)
+        private readonly IUserRepository _userRepository;
+        private readonly IMapper _mapper;
+        public UserController(IUserRepository userRepository,IMapper mapper)
         {
-            _db = context;
+            _userRepository = userRepository;
+            _mapper = mapper;
         }
+        //[HttpGet]
+        //[AllowAnonymous]
+        //public async Task<ActionResult<IEnumerable<MemberDto>>> GetUser()
+        //{
+        //    var user = await _userRepository.GetUsersAsync();
+        //    var userToReturn = _mapper.Map<IEnumerable<MemberDto>>(user);
+        //    return Ok(userToReturn);
+           
+        //}
         [HttpGet]
         [AllowAnonymous]
-        public async Task<ActionResult<IEnumerable<AppUser>>> GetUser()
+        public async Task<ActionResult<IEnumerable<MemberDto>>> GetUser()
         {
-            return await _db.AppUser.ToListAsync();
-           
+            var user = await _userRepository.GetMembersAsync();
+          
+            return Ok(user);
+
         }
-        [HttpGet("{id}")]
+        [HttpGet("{username}")]
         [Authorize]
-        public async Task<ActionResult<AppUser>> GetUser(int id)
+     
+        public async Task<ActionResult<MemberDto>> GetUser(string username)
         {
-            return await _db.AppUser.FindAsync(id);
+            return await _userRepository.GetMemberAsync(username);
            
         }
+     
     }
 }

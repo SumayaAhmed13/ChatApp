@@ -1,33 +1,27 @@
-﻿using ChatingApi.Extension;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace ChatingApi.Entities
+namespace ChatingApi.DTOs
 {
-    public class AppUser
+    public class MemberDto
     {
         public int Id { get; set; }
         public string UserName { get; set; }
-        public byte[] PasswordHash { get; set; }
-        public byte[] PasswordSalt { get; set; }
-        public DateTime DateOfBirth { get; set; }
+        public string PhotoURL { get; set; }
+        public int Age { get; set; }
         public string KnownAs { get; set; }
-        public DateTime Created { get; set; } = DateTime.Now;
-        public DateTime LastActive { get; set; } = DateTime.Now;
+        public DateTime Created { get; set; } 
+        public DateTime LastActive { get; set; } 
         public string Gender { get; set; }
         public string Introduction { get; set; }
         public string LookingFor { get; set; }
         public string Interests { get; set; }
         public string City { get; set; }
         public string Country { get; set; }
-
-        public Collection<Photo> Photos { get; set; }
-        //public int GetAge()
-        //{
-        //    return DateOfBirth.CalculateAge();
-        //}
+        public ICollection<PhotoDto> Photos { get; set; }
+        
     }
 }
