@@ -14,11 +14,12 @@ using System.Threading.Tasks;
 
 namespace ChatingApi.Controllers
 {
-    //[Authorize]
+    [Authorize]
 
     public class UserController : BaseApiController
 
     {
+
         private readonly IUserRepository _userRepository;
         private readonly IMapper _mapper;
         public UserController(IUserRepository userRepository,IMapper mapper)
@@ -36,7 +37,7 @@ namespace ChatingApi.Controllers
            
         //}
         [HttpGet]
-        [AllowAnonymous]
+      
         public async Task<ActionResult<IEnumerable<MemberDto>>> GetUser()
         {
             var user = await _userRepository.GetMembersAsync();
@@ -44,9 +45,8 @@ namespace ChatingApi.Controllers
             return Ok(user);
 
         }
+
         [HttpGet("{username}")]
-        [Authorize]
-     
         public async Task<ActionResult<MemberDto>> GetUser(string username)
         {
             return await _userRepository.GetMemberAsync(username);
