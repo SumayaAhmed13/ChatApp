@@ -17,6 +17,7 @@ namespace ChatingApi.Helper
                 .ForMember(des => des.PhotoURL, opt => opt.MapFrom(src => src.Photos.FirstOrDefault(x => x.IsMain).Url))
                 .ForMember(des => des.Age, opt => opt.MapFrom(src =>src.DateOfBirth.CalculateAge()));
             CreateMap<Photo, PhotoDto>();
+            CreateMap<MemberUpdateDTO, AppUser>();
         }
     }
 }

@@ -1,3 +1,4 @@
+import { MemberEditComponent } from './member/member-edit/member-edit.component';
 import { TestErrorsComponent } from './errors/test-errors/test-errors.component';
 import { AuthGuard } from './_guards/auth.guard';
 import { ListsComponent } from './lists/lists.component';
@@ -9,6 +10,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { MessagesComponent } from './messages/messages.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { ServerErrorComponent } from './server-error/server-error.component';
+import { PreventUnsavedChangesGuard } from './_guards/prevent-unsaved-changes.guard';
 
 const routes: Routes = [
 {path:"",component:HomeComponent},
@@ -17,8 +19,9 @@ const routes: Routes = [
   runGuardsAndResolvers:'always',
   canActivate:[AuthGuard],
   children:[
-    {path:"members",component:MemberListComponent,canActivate:[AuthGuard]},
+    {path:"members",component:MemberListComponent},
     {path:"member/:username",component:MemberDetailComponent},
+    {path:"members/edit",component:MemberEditComponent,canDeactivate:[PreventUnsavedChangesGuard]},
     {path:"lists",component:ListsComponent},
     {path:"massages",component:MessagesComponent},
 
