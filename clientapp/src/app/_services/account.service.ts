@@ -23,8 +23,7 @@ login(model: any)
         const user = response as User; 
         if (user) 
         {
-          localStorage.setItem('user', JSON.stringify(user));
-          this.currentUserSource.next(user);      
+          this.setCurrentUser(user);        
         }       
      })     
   );   
@@ -36,8 +35,7 @@ register(model:any)
       const user = res as User; 
         if (user) 
         {
-          localStorage.setItem('user', JSON.stringify(user));
-          this.currentUserSource.next(user);      
+           this.setCurrentUser(user);     
         }
       
   })
@@ -45,6 +43,7 @@ register(model:any)
 }
 
 setCurrentUser(user:User){
+  localStorage.setItem('user', JSON.stringify(user));
   this.currentUserSource.next(user)
 }
 
