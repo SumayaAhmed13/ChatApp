@@ -5,8 +5,8 @@
 <button class="btn btn-outline-primary mr-3"(click)="get401Error()">Test 401 Error</button>
 <button class="btn btn-outline-primary mr-3"(click)="get400ValidationError()">Test 400 Validation Error</button>
 <div class="row mt-3"*ngIf="validationErrors.length >0">
-<ul class="text-danger">
- <li *ngFor="let error of validationErrors">{{error}}</li>
-</ul>
+  <ul class="text-danger">
+    <li *ngFor="let error of validationErrors">{{error}}</li>
+  </ul>
 </div>
 </ng-container>

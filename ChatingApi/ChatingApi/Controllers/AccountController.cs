@@ -1,4 +1,5 @@
-﻿using ChatingApi.Data;
+﻿using AutoMapper;
+using ChatingApi.Data;
 using ChatingApi.DTOs;
 using ChatingApi.Entities;
 using ChatingApi.Interface;
@@ -19,10 +20,12 @@ namespace ChatingApi.Controllers
     {
         private readonly DataContext _db;
         private readonly ITokenService _tokenService;
-        public AccountController(DataContext context, ITokenService tokenService)
+        private readonly IMapper _mapper;
+        public AccountController(DataContext context, ITokenService tokenService,IMapper mapper)
         {
             _db = context;
             _tokenService = tokenService;
+            _mapper = mapper;
         }
 
         [HttpPost("register")]
@@ -31,12 +34,18 @@ namespace ChatingApi.Controllers
         {
             if (await UserExists(registerDto.UserName)) return BadRequest("UserName Already Exist");
             using var hmac = new HMACSHA512();
-            var user = new AppUser
-            {
-                UserName = registerDto.UserName.ToLower(),
-                PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(registerDto.Password)),
-                PasswordSalt = hmac.Key,
-            };
+
+            var user = _mapper.Map<AppUser>(registerDto);
+
+            user.UserName = registerDto.UserName.ToLower();
+            user.PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(registerDto.Password));
+            user.PasswordSalt = hmac.Key;
+            //user.KnownAs = registerDto.KnowAs;
+            //user.Gender = registerDto.Gender;
+            //user.DateOfBirth = registerDto.DateOfBrith;
+            //user.City = registerDto.City;
+            //user.Country = registerDto.Country;
+           
             _db.AppUser.Add(user);
             await _db.SaveChangesAsync();
 
@@ -44,6 +53,7 @@ namespace ChatingApi.Controllers
             {
                 Username = user.UserName,
                 Token = _tokenService.CreateToken(user),
+                KnowAs=user.KnownAs,
                
             };
 
