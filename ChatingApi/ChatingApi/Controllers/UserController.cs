@@ -3,6 +3,7 @@ using ChatingApi.Data;
 using ChatingApi.DTOs;
 using ChatingApi.Entities;
 using ChatingApi.Extension;
+using ChatingApi.Helper;
 using ChatingApi.Interface;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -40,13 +41,20 @@ namespace ChatingApi.Controllers
         //    return Ok(userToReturn);
            
         //}
+
         [HttpGet]
       
-        public async Task<ActionResult<IEnumerable<MemberDto>>> GetUser()
+        public async Task<ActionResult<IEnumerable<MemberDto>>> GetUser([FromQuery]UserParams userParams)
         {
-            var user = await _userRepository.GetMembersAsync();
+            var user = await _userRepository.GetUserByUsernameAsync(User.GetUserName());
+            userParams.CurrentUserName = user.UserName;
+
+            if (string.IsNullOrEmpty(userParams.Gender))
+                userParams.Gender = user.Gender == "male"?"female" : "male";
+            var users = await _userRepository.GetMembersAsync(userParams);
+            Response.AddPaginationHeader(users.CurrentPage, users.PageSize, users.TotalCount, users.TotalPages);
           
-            return Ok(user);
+            return Ok(users);
 
         }
 

@@ -8,6 +8,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper.QueryableExtensions;
+using ChatingApi.Helper;
+
+
 namespace ChatingApi.Data
 {
     public class UserRepository : IUserRepository
@@ -49,9 +52,13 @@ namespace ChatingApi.Data
         {
              _db.Entry(user).State = EntityState.Modified;
         }
-        public async Task<IEnumerable<MemberDto>>GetMembersAsync()
+        public async Task<PagedList<MemberDto>>GetMembersAsync(UserParams userParams)
         {
-            return await _db.AppUser.ProjectTo<MemberDto>(_mapper.ConfigurationProvider).ToListAsync();
+            var query = _db.AppUser.AsQueryable();
+            query = query.Where(c => c.UserName != userParams.CurrentUserName);
+            query = query.Where(c => c.Gender == userParams.Gender);
+            return await PagedList<MemberDto>.CreateAsync(query.ProjectTo<MemberDto>(_mapper
+               .ConfigurationProvider).AsNoTracking(), userParams.PageNumber, userParams.PageSize);
 
         }
 
@@ -61,6 +68,8 @@ namespace ChatingApi.Data
                 .ProjectTo<MemberDto>(_mapper.ConfigurationProvider)
                 .SingleOrDefaultAsync();
         }
+
+    
 
         //public async Task<MemberDto> GetMemberAsync(string username)
         //{
