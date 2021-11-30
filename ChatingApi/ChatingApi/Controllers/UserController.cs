@@ -32,6 +32,7 @@ namespace ChatingApi.Controllers
             _mapper = mapper;
             _photoService = photoService;
         }
+        #region Dead Code
         //[HttpGet]
         //[AllowAnonymous]
         //public async Task<ActionResult<IEnumerable<MemberDto>>> GetUser()
@@ -39,8 +40,32 @@ namespace ChatingApi.Controllers
         //    var user = await _userRepository.GetUsersAsync();
         //    var userToReturn = _mapper.Map<IEnumerable<MemberDto>>(user);
         //    return Ok(userToReturn);
-           
+
         //}
+        //[HttpGet]
+
+        //public async Task<ActionResult<IEnumerable<MemberDto>>> GetUser([FromQuery] UserParams userParams)
+        //{
+        //    var user = await _userRepository.GetUserByUsernameAsync(User.GetUserName());
+        //    userParams.CurrentUserName = user.UserName;
+        //    if (userParams.Gender.Contains('\n'))
+        //    {
+        //        string[] a = userParams.Gender.Split('\n');
+        //        userParams.Gender = a[0];
+              
+        //    }
+
+        //    if (string.IsNullOrEmpty(userParams.Gender))
+        //     userParams.Gender = user.Gender.Equals("male") ? "female" : "male";
+               
+        //    var users = await _userRepository.GetMembersAsync(userParams);
+        //    Response.AddPaginationHeader(users.CurrentPage, users.PageSize, users.TotalCount, users.TotalPages);
+
+        //    return Ok(users);
+
+        //}
+        #endregion
+
 
         [HttpGet]
       
@@ -50,7 +75,7 @@ namespace ChatingApi.Controllers
             userParams.CurrentUserName = user.UserName;
 
             if (string.IsNullOrEmpty(userParams.Gender))
-                userParams.Gender = user.Gender == "male"?"female" : "male";
+            userParams.Gender = user.Gender == "male" ? "female" : "male";
             var users = await _userRepository.GetMembersAsync(userParams);
             Response.AddPaginationHeader(users.CurrentPage, users.PageSize, users.TotalCount, users.TotalPages);
           

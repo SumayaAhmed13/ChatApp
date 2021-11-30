@@ -55,8 +55,21 @@ namespace ChatingApi.Data
         public async Task<PagedList<MemberDto>>GetMembersAsync(UserParams userParams)
         {
             var query = _db.AppUser.AsQueryable();
+            //var query = _db.AppUser.Where(c => c.UserName != userParams.CurrentUserName && c.Gender.Equals(userParams.Gender));
             query = query.Where(c => c.UserName != userParams.CurrentUserName);
             query = query.Where(c => c.Gender == userParams.Gender);
+            var mindob = DateTime.Today.AddYears(-userParams.MaxAge - 1);
+            var maxdob= DateTime.Today.AddYears(-userParams.MinAge);
+    
+            query = query.Where(c => c.DateOfBirth >= mindob && c.DateOfBirth <= maxdob);
+            query = userParams.OrderBy switch 
+            { 
+                "created" =>query.OrderByDescending(u=>u.Created),
+                _=>query.OrderByDescending(u=>u.LastActive)
+
+            };
+
+
             return await PagedList<MemberDto>.CreateAsync(query.ProjectTo<MemberDto>(_mapper
                .ConfigurationProvider).AsNoTracking(), userParams.PageNumber, userParams.PageSize);
 

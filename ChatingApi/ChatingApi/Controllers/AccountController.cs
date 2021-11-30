@@ -40,12 +40,12 @@ namespace ChatingApi.Controllers
             user.UserName = registerDto.UserName.ToLower();
             user.PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(registerDto.Password));
             user.PasswordSalt = hmac.Key;
-            //user.KnownAs = registerDto.KnowAs;
-            //user.Gender = registerDto.Gender;
-            //user.DateOfBirth = registerDto.DateOfBrith;
-            //user.City = registerDto.City;
-            //user.Country = registerDto.Country;
-           
+            user.KnownAs = registerDto.KnowAs;
+            user.Gender = registerDto.Gender;
+            user.DateOfBirth = registerDto.DateOfBrith;
+            user.City = registerDto.City;
+            user.Country = registerDto.Country;
+
             _db.AppUser.Add(user);
             await _db.SaveChangesAsync();
 
@@ -54,6 +54,7 @@ namespace ChatingApi.Controllers
                 Username = user.UserName,
                 Token = _tokenService.CreateToken(user),
                 KnowAs=user.KnownAs,
+                Gender=user.Gender
                
             };
 
@@ -77,7 +78,9 @@ namespace ChatingApi.Controllers
             {
                 Username = user.UserName,
                 Token = _tokenService.CreateToken(user),
-                PhotoUrl = user.Photos.FirstOrDefault(x => x.IsMain)?.Url
+                PhotoUrl = user.Photos.FirstOrDefault(x => x.IsMain)?.Url,
+                KnowAs=user.KnownAs,
+                Gender=user.Gender
             };
 
         }

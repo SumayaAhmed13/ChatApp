@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ChatingApi.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20211007143932_TestSeedData")]
-    partial class TestSeedData
+    [Migration("20211118155844_FirstMigration")]
+    partial class FirstMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
