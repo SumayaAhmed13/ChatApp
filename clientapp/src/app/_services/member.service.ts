@@ -52,6 +52,7 @@ export class MemberService {
 
     return this.getPaginatedResult<Member[]>(this.baseUrl + 'user',params).pipe(map(response=>{
       this.memberCache.set(Object.values(userParams).join('-'),response)
+     
       return response;
     }))
   }
@@ -82,6 +83,15 @@ export class MemberService {
   deletePhoto(photoId:number){
     return this.http.delete(this.baseUrl +'user/delete-photo/' + photoId)
   }
+  addLike(username:string){
+      return this.http.post(this.baseUrl+ 'likes/' + username,{})
+  }
+  getLikes(predicate:string,pageNumber,pageSize){
+    let params= this.getPaginationHeader(pageNumber,pageSize);
+    params=params.append('predicate',predicate);
+    return this.getPaginatedResult<Partial<Member[]>>(this.baseUrl+'likes',params)
+   //return  this.http.get<Partial<Member[]>>(this.baseUrl + 'likes?predicate='+ predicate,{})
+  }
   private getPaginatedResult<T>(url,params) {
     const  paginatedResult:PaginatedResult<T>=new PaginatedResult<T>();
      return this.http.get<T>(url, { observe: "response", params }).pipe(map(response => {
@@ -89,7 +99,7 @@ export class MemberService {
        if (response.headers.get("Pagination") !== null) {
          paginatedResult.pagination = JSON.parse(response.headers.get("Pagination"));
        }
- 
+        console.log(paginatedResult);
        return paginatedResult;
      }));
    }
@@ -101,5 +111,7 @@ export class MemberService {
       
      return params;
    }
+
+
 
 }

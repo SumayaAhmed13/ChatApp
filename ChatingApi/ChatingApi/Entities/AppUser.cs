@@ -25,6 +25,9 @@ namespace ChatingApi.Entities
         public string Country { get; set; }
 
         public Collection<Photo> Photos { get; set; }
+
+        public Collection<UserLike> LikedByUsers{ get; set; }
+        public Collection<UserLike> LikedUsers { get; set; }
         //public int GetAge()
         //{
         //    return DateOfBirth.CalculateAge();
