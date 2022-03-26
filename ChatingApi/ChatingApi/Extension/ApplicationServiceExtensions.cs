@@ -22,6 +22,7 @@ namespace ChatingApi.Extension
             services.AddScoped<ITokenService, TokenService>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<ILikesRepository, LikeRepository>();
+            services.AddScoped<IMessageRepository, MessageRepository>();
             services.AddScoped<LogUserActivity>();
             services.AddAutoMapper(typeof(AutoMapperProfile).Assembly);
             services.AddDbContext<DataContext>(options => options.UseSqlServer(config.GetConnectionString("DefaultConnection")));

@@ -25,6 +25,7 @@ import { NgxSpinnerModule } from 'ngx-spinner';
 import { PhotoEditorComponent } from './member/photo-editor/photo-editor.component';
 import { TextInputComponent } from './_form/text-input/text-input.component';
 import { DateInputComponent } from './_form/date-input/date-input.component';
+import { MemberMessageComponent } from './member/member-message/member-message.component';
 
 
 
@@ -46,6 +47,7 @@ import { DateInputComponent } from './_form/date-input/date-input.component';
     PhotoEditorComponent,
     TextInputComponent,
     DateInputComponent,
+    MemberMessageComponent,
  
    
   ],
@@ -58,6 +60,7 @@ import { DateInputComponent } from './_form/date-input/date-input.component';
     SharedModule,
     NgxSpinnerModule,
     ReactiveFormsModule,
+   
   ],
   providers: [
     {provide:HTTP_INTERCEPTORS,useClass:ErrorInterceptor,multi:true},

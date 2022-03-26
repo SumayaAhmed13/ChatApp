@@ -15,6 +15,9 @@ namespace ChatingApi.Data
         }
         public DbSet<AppUser> AppUser { get; set; }
         public DbSet<UserLike> Like { get; set; }
+        public DbSet<Message> Messages { get; set; }
+      
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
@@ -33,7 +36,16 @@ namespace ChatingApi.Data
                 .WithMany(l => l.LikedByUsers)
                 .HasForeignKey(f => f.LikedUserId)
                 .OnDelete(DeleteBehavior.Cascade);
-                // .OnDelete(DeleteBehavior.NoAction);//Only for Sql Server
+            // .OnDelete(DeleteBehavior.NoAction);//Only for Sql Server
+            builder.Entity<Message>()
+                .HasOne(n => n.Recipient)
+                .WithMany(m => m.MessageReceived)
+                .OnDelete(DeleteBehavior.Restrict);
+            builder.Entity<Message>()
+               .HasOne(n => n.Sender)
+               .WithMany(m => m.MessageSent)
+               .OnDelete(DeleteBehavior.Restrict);
+
 
         }
        

@@ -24,10 +24,12 @@ namespace ChatingApi.Entities
         public string City { get; set; }
         public string Country { get; set; }
 
-        public Collection<Photo> Photos { get; set; }
+        public ICollection<Photo> Photos { get; set; }
 
-        public Collection<UserLike> LikedByUsers{ get; set; }
-        public Collection<UserLike> LikedUsers { get; set; }
+        public ICollection<UserLike> LikedByUsers{ get; set; }
+        public ICollection<UserLike> LikedUsers { get; set; }
+        public ICollection<Message> MessageSent { get; set; }
+        public ICollection<Message> MessageReceived { get; set; }
         //public int GetAge()
         //{
         //    return DateOfBirth.CalculateAge();
